@@ -1,0 +1,10 @@
+{
+    "python-envs.pythonProjects": [
+        {
+            "path": "frontend",
+            "envManager": "ms-python.python:venv",
+            "packageManager": "ms-python.python:pip"
+        }
+    ],
+    "java.compile.nullAnalysis.mode": "automatic"
+}
