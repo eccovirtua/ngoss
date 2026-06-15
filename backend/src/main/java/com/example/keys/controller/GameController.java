@@ -26,4 +26,16 @@ public class GameController {
     public Game getGameById(@PathVariable Long id) {
         return gameService.getGameById(id);
     }
+    
+    // Guardar un nuevo juego en el catálogo
+    @PostMapping
+    public Game createGame(@RequestBody Game game) {
+    return gameService.saveGame(game);
+    }
+
+    // Eliminar un juego del catálogo
+    @DeleteMapping("/{id}")
+    public void deleteGame(@PathVariable Long id) {
+    gameService.deleteGame(id);
+    }
 }

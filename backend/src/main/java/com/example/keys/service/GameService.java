@@ -21,4 +21,12 @@ public class GameService {
         return gameRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Juego no encontrado"));
     }
+
+    public Game saveGame(Game game) {
+    return gameRepository.save(game);
+    }
+
+    public void deleteGame(Long id) {
+    gameRepository.deleteById(id);
+    }
 }

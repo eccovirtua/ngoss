@@ -2,21 +2,21 @@ import { Link } from 'react-router-dom';
 
 function Landing() {
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col justify-center items-center font-sans">
+    <div className="flex flex-col items-center w-full">
       
       {/* Contenedor Principal (Hero Section) */}
       <div className="text-center max-w-3xl px-6">
         <h1 className="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 mb-6 drop-shadow-lg">
-          KeyVault
+          MeliKeys
         </h1>
         <p className="text-xl md:text-2xl text-gray-300 mb-10">
-          Tu bóveda de confianza. Encuentra las mejores keys de Steam, Epic y Xbox al instante.
+          Distribuidor oficial de keys de juegos. Encuentra las mejores keys de Steam, Epic Games y Xbox al instante.
         </p>
 
         {/* Botón de Entrada (Call to Action) */}
         <Link to="/login">
           <button className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 px-10 rounded-full text-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-[0_0_15px_rgba(37,99,235,0.5)]">
-            Entrar a la Bóveda
+            Explorar Catálogo
           </button>
         </Link>
       </div>

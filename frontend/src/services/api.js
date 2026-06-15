@@ -27,6 +27,19 @@ export const createOrder = async (orderData) => {
 export const getOrders = async (userId) => {
     const response = await api.get(`/orders/user/${userId}`);
     return response.data;
+
+    
+};
+
+// Servicio para guardar un nuevo juego
+export const createGame = async (gameData) => {
+    const response = await api.post('/games', gameData);
+    return response.data;
+};
+// Servicio para eliminar un juego
+export const deleteGame = async (id) => {
+    const response = await api.delete(`/games/${id}`);
+    return response.data;
 };
 
 export default api;
