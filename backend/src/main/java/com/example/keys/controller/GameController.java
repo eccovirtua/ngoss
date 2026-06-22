@@ -3,6 +3,7 @@ package com.example.keys.controller;
 import com.example.keys.model.Game;
 import com.example.keys.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,13 +21,7 @@ public class GameController {
     public List<Game> getAllGames() {
         return gameService.getAllGames();
     }
-
-    // Obtener un solo juego por si quieres hacer una vista de "Detalles del producto"
-    @GetMapping("/{id}")
-    public Game getGameById(@PathVariable Long id) {
-        return gameService.getGameById(id);
-    }
-    
+  
     // Guardar un nuevo juego en el catálogo
     @PostMapping
     public Game createGame(@RequestBody Game game) {
@@ -37,5 +32,14 @@ public class GameController {
     @DeleteMapping("/{id}")
     public void deleteGame(@PathVariable Long id) {
     gameService.deleteGame(id);
+    }
+
+    // Obtener un solo juego por su ID
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getGameById(@PathVariable Long id) {
+        // Usamos el repositorio directamente para simplificar
+        return gameService.getGameById(id) != null 
+            ? ResponseEntity.ok(gameService.getGameById(id)) 
+            : ResponseEntity.notFound().build();
     }
 }

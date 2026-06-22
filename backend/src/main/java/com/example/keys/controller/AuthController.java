@@ -16,10 +16,20 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody User user) {
+        try {
+            User newUser = authService.register(user);
+            return ResponseEntity.ok(newUser);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
         try {
-            User user = authService.login(credentials.get("username"), credentials.get("password"));
+            User user = authService.login(credentials.get("email"), credentials.get("password"));
             return ResponseEntity.ok(user);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

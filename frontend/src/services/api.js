@@ -11,6 +11,12 @@ export const getGames = async () => {
     return response.data;
 };
 
+// Servicio para registrar usuario
+export const registerUser = async (userData) => {
+    const response = await api.post('/auth/register', userData);
+    return response.data;
+};
+
 // Servicio para el login
 export const loginUser = async (credentials) => {
     const response = await api.post('/auth/login', credentials);
@@ -39,6 +45,11 @@ export const createGame = async (gameData) => {
 // Servicio para eliminar un juego
 export const deleteGame = async (id) => {
     const response = await api.delete(`/games/${id}`);
+    return response.data;
+};
+// Servicio para obtener un solo juego por su ID
+export const getGameById = async (id) => {
+    const response = await api.get(`/games/${id}`);
     return response.data;
 };
 

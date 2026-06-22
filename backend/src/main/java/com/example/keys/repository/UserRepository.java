@@ -7,5 +7,5 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     
     // Spring Boot genera automáticamente la consulta SQL por debajo gracias al nombre del método
-    Optional<User> findByUsername(String username);
+    Optional<User> findByEmail(String email);
 }

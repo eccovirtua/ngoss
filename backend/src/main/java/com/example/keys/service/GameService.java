@@ -16,17 +16,15 @@ public class GameService {
     public List<Game> getAllGames() {
         return gameRepository.findAll();
     }
-
-    public Game getGameById(Long id) {
-        return gameRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Juego no encontrado"));
-    }
-
     public Game saveGame(Game game) {
     return gameRepository.save(game);
     }
 
     public void deleteGame(Long id) {
     gameRepository.deleteById(id);
+    }
+
+    public Game getGameById(Long id) {
+        return gameRepository.findById(id).orElse(null);
     }
 }
