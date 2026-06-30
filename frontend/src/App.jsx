@@ -1,12 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import Landing from './pages/Landing';
+import Affiliate from './pages/Affiliate';
+import BundleDetail from './pages/BundleDetail';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import Admin from './pages/Admin';
 import Register from './pages/Register';
 import { CartProvider } from './context/CartContext';
 import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
 import GameDetail from './pages/GameDetail';
 
 function App() {
@@ -19,6 +22,10 @@ function App() {
             <Route path="/" element={<Landing />} />
             <Route path="/game/:id" element={<GameDetail />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/checkout" element={<Checkout />} />
+            
+            <Route path="/affiliate" element={<Affiliate />} />
+            <Route path="/special/:type" element={<BundleDetail />} />
             <Route path="/register" element={<Register />} />
             <Route path="/home" element={<Home />} />
             <Route path="/cart" element={<Cart />} />

@@ -1,17 +1,23 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
+import Footer from './Footer';
 
 function Layout() {
+  const location = useLocation();
+  const hideNavbarRoutes = ['/', '/checkout'];
+
+  const showNavbar = !hideNavbarRoutes.includes(location.pathname);
+
+
   return (
     // Aquí definimos el tema global: Fondo oscuro, texto blanco, altura mínima, fuente.
     <div className="min-h-screen bg-gray-900 text-white font-sans">
-      <Navbar /> {/* El NavBar se muestra en todas las páginas */}
+      {showNavbar && <Navbar />}
       {/* El contenido dinámico de tus páginas aparecerá aquí adentro */}
       <main className="flex flex-col justify-center items-center min-h-screen">
         <Outlet /> 
       </main>
-
-      {/* Si quisieras un Footer, iría aquí abajo */}
+      <Footer />
     </div>
   );
 }

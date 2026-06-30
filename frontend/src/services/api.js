@@ -53,4 +53,12 @@ export const getGameById = async (id) => {
     return response.data;
 };
 
+// Servicio para procesar el pago y obtener las keys
+export const processCheckout = async (cartData) => {
+    // Mandamos un array con solo los IDs y las cantidades para no sobrecargar la red
+    const payload = cartData.map(item => ({ id: item.id, quantity: item.quantity }));
+    const response = await api.post('/games/checkout', payload);
+    return response.data;
+};
+
 export default api;
