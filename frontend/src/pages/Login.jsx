@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { loginUser } from '../services/api';
+import api from '../services/api'; // <-- CAMBIO 1: Importamos 'api' por defecto
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -12,11 +12,20 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const user = await loginUser({ email, password });
-      localStorage.setItem('userId', user.id);
+      // Ahora 'api' sí existe y puede hacer el POST
+      const response = await api.post('/auth/login', { email, password });
+      
+      localStorage.setItem('token', response.data.token); 
+      localStorage.setItem('userId', response.data.userId);
+      localStorage.setItem('role', response.data.role);
+      
+      // Redirigir a la tienda
       navigate('/home');
-    } catch (err) {
-      setError('Correo o contraseña incorrectos');
+      
+    } catch (error) {
+      console.error("Error al iniciar sesión", error);
+      // <-- CAMBIO 2: Mostramos el error en la interfaz usando el estado que ya tenías
+      setError("Correo o contraseña incorrectos. Inténtalo de nuevo."); 
     }
   };
 
@@ -46,6 +55,7 @@ function Login() {
         </button>
       </form>
 
+      {/* Aquí se mostrará el mensaje si algo sale mal */}
       {error && <p className="mt-4 text-center text-red-400">{error}</p>}
 
       <div className="mt-6 text-center">

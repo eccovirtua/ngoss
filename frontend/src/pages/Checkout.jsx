@@ -30,10 +30,19 @@ function Checkout() {
     setIsProcessing(true);
     setError('');
 
+    // SE CORRIGIÓ EL DOBLE TRY AQUÍ
     try {
-      console.log("🟠 2. Enviando datos al backend...", cart);
-      const keys = await processCheckout(cart);
+      // 1. Obtener el ID del localstorage
+      const userId = localStorage.getItem('userId');
       
+      if (!userId) {
+        setError('Debes iniciar sesión para comprar');
+        setIsProcessing(false);
+        return;
+      }
+      
+      console.log("🟠 2. Enviando datos al backend...", cart);
+      const keys = await processCheckout(cart, userId);      
       console.log("🟡 3. Respuesta exitosa recibida del backend:", keys);
       
       setTimeout(() => {

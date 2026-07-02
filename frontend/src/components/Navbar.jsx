@@ -15,7 +15,7 @@ function Navbar() {
       
       <div className="flex items-center gap-6">
         <Link to="/home" className="text-gray-300 hover:text-white font-semibold transition">Catálogo</Link>
-        
+        <Link to="/account" className="text-gray-300 hover:text-white font-semibold transition">Mi Cuenta</Link>
         {/* Ícono del Carrito con animación cuando tiene items */}
         <Link to="/cart" className="relative cursor-pointer hover:scale-105 transition-transform block">
             <span className="text-2xl">🛒</span>

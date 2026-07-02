@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import Landing from './pages/Landing';
+import MyAccount from './pages/MyAccount';
 import Affiliate from './pages/Affiliate';
 import BundleDetail from './pages/BundleDetail';
 import Login from './pages/Login';
@@ -23,7 +24,7 @@ function App() {
             <Route path="/game/:id" element={<GameDetail />} />
             <Route path="/login" element={<Login />} />
             <Route path="/checkout" element={<Checkout />} />
-            
+            <Route path="/account" element={<MyAccount />} />
             <Route path="/affiliate" element={<Affiliate />} />
             <Route path="/special/:type" element={<BundleDetail />} />
             <Route path="/register" element={<Register />} />

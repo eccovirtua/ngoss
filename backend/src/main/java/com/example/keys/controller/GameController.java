@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/games")
@@ -41,5 +42,18 @@ public class GameController {
         return gameService.getGameById(id) != null 
             ? ResponseEntity.ok(gameService.getGameById(id)) 
             : ResponseEntity.notFound().build();
+    }
+    @PostMapping("/checkout/{userId}")
+    public ResponseEntity<?> checkout(@PathVariable Long userId, @RequestBody List<Map<String, Object>> cart) {
+        try {
+            return ResponseEntity.ok(gameService.processCheckout(cart, userId));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/purchases/{userId}")
+    public ResponseEntity<?> getUserPurchases(@PathVariable Long userId) {
+        return ResponseEntity.ok(gameService.getUserPurchases(userId));
     }
 }

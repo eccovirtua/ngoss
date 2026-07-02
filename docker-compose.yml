@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: melikeys-backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend/data:/app/data # Esto mantiene tu base de datos H2 a salvo en tu disco duro
+    networks:
+      - melikeys-network
+
+  frontend:
+    build: ./frontend
+    container_name: melikeys-frontend
+    ports:
+      - "80:80" # Mapeamos el puerto 80 del contenedor al puerto 80 de tu PC
+    depends_on:
+      - backend # Le dice a Docker que espere a que el backend arranque primero
+    networks:
+      - melikeys-network
+
+networks:
+  melikeys-network:
+    driver: bridge

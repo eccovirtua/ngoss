@@ -99,9 +99,17 @@ function Home() {
         />
         <div className="absolute inset-0 z-20 flex flex-col justify-center px-10 md:px-16 w-full md:w-1/2">
           <span className="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full w-fit mb-4 uppercase tracking-wider">Top Ventas</span>
-          <h1 className="text-4xl md:text-6xl font-black text-white mb-4 shadow-black drop-shadow-lg">Descubre lo Mejor</h1>
+          <h1 className="text-4xl md:text-6xl font-black text-white mb-4 shadow-black drop-shadow-lg">Descubre los mejores juegos al mejor precio</h1>
           <p className="text-gray-300 mb-8 text-lg">Las mejores ofertas de la semana. Stock limitado.</p>
-          <button className="bg-white text-gray-900 hover:bg-gray-200 font-bold py-3 px-8 rounded-lg w-fit transition shadow-lg">
+          <button 
+            onClick={() => {
+              const section = document.getElementById('ofertas-del-dia');
+              if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+            className="bg-white text-gray-900 hover:bg-gray-200 font-bold py-3 px-8 rounded-lg w-fit transition shadow-lg"
+          >
             Ver Ofertas
           </button>
         </div>
@@ -185,7 +193,7 @@ function Home() {
 
       {/* NUEVO: OFERTAS DEL DÍA */}
       {dailyDeals.length > 0 && (
-        <section className="bg-gray-800 border border-red-500/30 rounded-3xl p-8 relative overflow-hidden shadow-2xl">
+        <section id="ofertas-del-dia" className="bg-gray-800 border border-red-500/30 rounded-3xl p-8 relative overflow-hidden shadow-2xl">
           {/* Acento visual rojo */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
           
