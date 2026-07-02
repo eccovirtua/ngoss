@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -12,6 +13,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -26,33 +32,42 @@ public class SecurityConfig {
     }
 
     @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("*")); // Permite Authorization y cualquier otro
+        configuration.setAllowCredentials(true);
+        
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // Desactivamos esto porque usaremos JWT
+            // 2. ACTIVAR CORS EN EL FILTRO
+            .cors(Customizer.withDefaults()) 
+            .csrf(csrf -> csrf.disable()) 
             
-            // Le decimos a Spring que no guarde sesiones, todo dependerá del Token
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) 
             .headers(headers -> headers.frameOptions(frame -> frame.disable()))
-            // 2. CONFIGURAMOS LAS PUERTAS (Las Reglas)
+            
             .authorizeHttpRequests(auth -> auth
                 
-                // PUERTAS PÚBLICAS (Login, Registro y ver el catálogo)
+                // 3. DEJAR PASAR LAS PETICIONES PRE-FLIGHT (OPTIONS)
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/games").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
-                                
-                // PUERTAS VIP PARA EL ADMIN (Crear, editar o borrar juegos)
-                .requestMatchers(HttpMethod.GET, "/api/games/**").permitAll() // Permitir GET para ver detalles de juegos
-
-                .requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/games/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/games/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/games/**").hasRole("ADMIN")
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                // CUALQUIER OTRA PUERTA (Ej. Comprar, ver historial) requiere Token válido
                 .anyRequest().authenticated()
             );
         
-        // 3. Ponemos al cadenero en la puerta principal antes de que la petición entre
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         
         return http.build();

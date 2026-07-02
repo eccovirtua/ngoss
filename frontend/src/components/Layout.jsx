@@ -4,7 +4,7 @@ import Footer from './Footer';
 
 function Layout() {
   const location = useLocation();
-  const hideNavbarRoutes = ['/', '/checkout'];
+  const hideNavbarRoutes = ['/', '/checkout', '/login', '/register']; // Rutas donde NO queremos mostrar el Navbar
 
   const showNavbar = !hideNavbarRoutes.includes(location.pathname);
 
